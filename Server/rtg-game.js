@@ -10,6 +10,7 @@ class RtgGame {
     this._players.forEach((player, index) => {
       player.on("turn", (turn) => {
         this._onTurn(index, turn);
+        console.log(`The selected turn is ${turn}`);
       });
     });
   }
