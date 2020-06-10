@@ -1,4 +1,4 @@
-let sock = io();
+let sock;
 
 const writeEvent = (text) => {
   //<ul> element
@@ -23,27 +23,28 @@ const onFormSubmitted = (e) => {
 };
 
 // Display the inputted price
-const bettingPrice = () => {
-  const price = document.getElementById("price");
-  price.addEventListener("keyup", (e) => {
-    if (e.key === 13) {
-      event.preventDefault();
-      const input = document.querySelector("#price");
-      // const text = input.value;
+// const bettingPrice = () => {
+//   const price = document.getElementById("price");
+//   price.addEventListener("keyup", (e) => {
+//     if (e.key === 13) {
+//       event.preventDefault();
+//       const input = document.querySelector("#price");
+//       // const text = input.value;
+//       console.log(input);
 
-      console.log(`betting price input is ${input}`);
+//       sock.emit("turn", input);
+//     }
+//   });
+// };
 
-      sock.emit("turn", `You have selected betting price of ${input}`);
-    }
-  });
-};
-
-const bettingPriceForm = (e) => {
+const bettingPriceFrom = (e) => {
   e.preventDefault();
-
   const inputVal = document.querySelector("#price");
 
-  sock.emit("message", inputVal.value);
+  console.log(`Betting price input is ${inputVal.value}`);
+
+  // sock.emit("message", `Betting price input is ${inputVal.value}`);
+  sock.emit("turn", `Betting price input is ${inputVal.value}`);
 };
 
 // Display the Betting Time
@@ -55,8 +56,7 @@ const bettingTime = () => {
       const selection = document.querySelector("#time");
       // const text = input.value;
 
-      console.log(`betting time input is ${selection}`);
-      sock.emit("turn", selection);
+      sock.emit("message", selection);
     }
   });
 };
@@ -66,7 +66,10 @@ const bettingTimeForm = (e) => {
 
   const inputVal = document.querySelector("#time");
 
-  sock.emit("message", inputVal.value);
+  console.log(`Betting time input is ${inputVal.value}`);
+
+  sock.emit("message", `Betting time input is ${inputVal.value}`);
+  sock.emit("turn", `Betting time input is ${inputVal.value}`);
 };
 
 //Display the selected betting amount
@@ -82,26 +85,24 @@ const addPriceButtonListeners = () => {
 const main = () => {
   writeEvent("Welcome to RT Gambling!");
 
-  const sock = io();
+  sock = io();
   sock.on("message", writeEvent);
 
   document
     .querySelector("#chat-form")
     .addEventListener("submit", onFormSubmitted);
-
   document
     .querySelector("#betting-price-form")
-    .addEventListener("submit", bettingPriceForm);
-
+    .addEventListener("submit", bettingPriceFrom);
   document
     .querySelector("#time-form")
     .addEventListener("submit", bettingTimeForm);
 
   addPriceButtonListeners();
-  bettingPrice();
+  // bettingPrice();
   bettingTime();
 };
 
-document.onreadystatechange = () => {
+document.onreadystatechange = function () {
   if (document.readyState === "complete") main();
 };
