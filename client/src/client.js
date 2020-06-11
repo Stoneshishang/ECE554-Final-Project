@@ -17,62 +17,12 @@ const onFormSubmitted = (e) => {
 
   const input = document.querySelector("#chat");
   const text = input.value;
-  // input.value = "";
+  input.value = "";
 
   sock.emit("message", text);
 };
 
-// Display the inputted price
-// const bettingPrice = () => {
-//   const price = document.getElementById("price");
-//   price.addEventListener("keyup", (e) => {
-//     if (e.key === 13) {
-//       event.preventDefault();
-//       const input = document.querySelector("#price");
-//       // const text = input.value;
-//       console.log(input);
-
-//       sock.emit("turn", input);
-//     }
-//   });
-// };
-
-const bettingPriceFrom = (e) => {
-  e.preventDefault();
-  const inputVal = document.querySelector("#price");
-
-  console.log(`Betting price input is ${inputVal.value}`);
-
-  // sock.emit("message", `Betting price input is ${inputVal.value}`);
-  sock.emit("turn", `Betting price input is ${inputVal.value}`);
-};
-
-// Display the Betting Time
-const bettingTime = () => {
-  const price = document.getElementById("time");
-  price.addEventListener("keyup", (e) => {
-    if (e.key === 13) {
-      event.preventDefault();
-      const selection = document.querySelector("#time");
-      // const text = input.value;
-
-      sock.emit("message", selection);
-    }
-  });
-};
-
-const bettingTimeForm = (e) => {
-  e.preventDefault();
-
-  const inputVal = document.querySelector("#time");
-
-  console.log(`Betting time input is ${inputVal.value}`);
-
-  sock.emit("message", `Betting time input is ${inputVal.value}`);
-  sock.emit("turn", `Betting time input is ${inputVal.value}`);
-};
-
-//Display the selected betting amount
+//Display the selected betting amount each individual player for themselves
 const addPriceButtonListeners = () => {
   ["add50", "add500", "add2000"].forEach((id) => {
     const button = document.getElementById(id);
@@ -80,6 +30,44 @@ const addPriceButtonListeners = () => {
       sock.emit("turn", id);
     });
   });
+};
+
+const startTimer = () => {
+  // window.setTimeout(window.alert, 10000, "Your betting time is up!");
+  // window.setTimeout(disableButton, 10000);
+};
+
+const disableButton = () => {
+  [
+    "add50",
+    "add500",
+    "add2000",
+    "confirm-betting-price",
+    "confirm-time-selection",
+  ].forEach((id) => {
+    document.getElementById(id).disabled = true;
+  });
+};
+
+// Display the inputted price to each individual player for themselves
+
+const bettingPriceFrom = (e) => {
+  e.preventDefault();
+  const inputVal = document.querySelector("#price");
+
+  sock.emit("message", `Betting price input is ${inputVal.value}`);
+  sock.emit("turn", `${inputVal.value}`);
+};
+
+// Display the Betting Time each individual player for themselves
+
+const bettingTimeForm = (e) => {
+  e.preventDefault();
+
+  const inputVal = document.querySelector("#time");
+
+  sock.emit("message", `Betting time input is ${inputVal.value}`);
+  sock.emit("turn", `${inputVal.value}`);
 };
 
 const main = () => {
@@ -99,8 +87,6 @@ const main = () => {
     .addEventListener("submit", bettingTimeForm);
 
   addPriceButtonListeners();
-  // bettingPrice();
-  bettingTime();
 };
 
 document.onreadystatechange = function () {
