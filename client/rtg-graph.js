@@ -97,13 +97,15 @@ function bitcoinDataHandler() {
   var data = JSON.parse(raw_data_string);
   var base = data.ticker.base;
   var target = data.ticker.target;
-  var price = data.ticker.price;
+  var BTCRTprice = data.ticker.price;
   var volume = data.ticker.volume;
   var change = data.ticker.change;
   var api_server_epoch_timestamp = data.timestamp;
   var api_success = data.success;
   var api_error = data.error;
-  return price;
+  console.log(`BTC Real Time price is ${BTCRTprice}`);
+
+  return BTCRTprice;
 }
 
 document.getElementById("btc_val").innerHTML =

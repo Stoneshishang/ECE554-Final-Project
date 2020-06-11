@@ -83,36 +83,35 @@
 					<textarea name="score-board" cols="10" rows="1"></textarea>
 				</div>
 			</div>	
-			
-			<!-- <div>
-				<button id="countdown-timer">Start the Selection Count Down Timer!</button>
-				<p id="countdown">00:10</p>
-			</div> -->
+
+			<p>Above Real time Bitcoin price graph is updating every 10 seconds</p>
+			<p>Note: Please choose a betting amount to start the game. Then make the betting selection within 10 seconds.</p>
+			<div class="button-wrapper">
+				<label for="time">Choose a betting amount:</label>
+				<button id="add50" value="50" class="turn" onclick="startTimer()">Add $50</button>
+				<button id="add500" value="500" class="turn" onclick="startTimer()">Add $500</button>
+				<button id="add2000" value="2000" class="turn" onclick="startTimer()">Add $2000</button>
+			</div>
+			<p></p>
 
 			<div class="betting-price">
 				<form id="betting-price-form">
 					<label for="price">Choose a betting price:</label>
-					<input type="number" name="price" id="price">
-					<input type="submit" value="Confirm">
+					<input type="number" name="price" id="price" required>
+					<button id ="confirm-betting-price" type="submit">Confirm</button>
 				</form>
 			</div>
 
 			<div class="time-selection">
 				<form id="time-form">
 					<label for="time">Choose a betting time:</label>
-					<input type="time" name ="time" id="time">
-					<input type="submit" value = "Confirm">
+					<input type="time" name ="time" id="time" step="2" required>
+					<button id ="confirm-time-selection" type="submit">Confirm</button>
 				</form>
+				<button id="make-bet">MAKE THE BET!</button>
 			</div>
 	
-			<div class="button-wrapper">
-				<label for="time">Choose a betting amount:</label>
-				<button id="add50" value="50" class="turn">Add $50</button>
-				<button id="add500" value="500" class="turn">Add $500</button>
-				<button id="add2000" value="2000" class="turn">Add $2000</button>
-				<p></p>
-			<button id="make-bet">MAKE THE BET!</button>
-			</div>
+			
 		</div>
 	  <!-- End Chat portion -->
 	</div>
