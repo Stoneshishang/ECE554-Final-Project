@@ -66,8 +66,53 @@ const bettingTimeForm = (e) => {
 
   const inputVal = document.querySelector("#time");
 
+  // const today = new Date();
+  // const year = Number(today.getFullYear());
+  // const month = Number(today.getMonth());
+  // const date = Number(today.getDate());
+  // const hour = Number(inputVal.value.substring(0, 2));
+  // const minute = Number(inputVal.value.substring(3, 5));
+  // const second = Number(inputVal.value.substring(6, 8));
+
+  // const setTime = new Date(year, month, date, hour, minute, second).getTime();
+  // const currentTime = Date.now();
+
+  // const eta_ms = setTime - currentTime;
+
+  // document.getElementById("confirm-time-selection").onclick = setTimeout(
+  //   delayedbitcoinDataHandler(),
+  //   eta_ms
+  // );
+
+  // console.log(`setTime is ${setTime}`);
+  // console.log(`currentTime is ${currentTime}`);
+  // console.log(`eta_ms is ${eta_ms}`);
+
   sock.emit("message", `Betting time input is ${inputVal.value}`);
   sock.emit("turn", `${inputVal.value}`);
+};
+
+const timeout = () => {
+  const inputVal = document.querySelector("#time");
+
+  const today = new Date();
+  const year = Number(today.getFullYear());
+  const month = Number(today.getMonth());
+  const date = Number(today.getDate());
+  const hour = Number(inputVal.value.substring(0, 2));
+  const minute = Number(inputVal.value.substring(3, 5));
+  const second = Number(inputVal.value.substring(6, 8));
+
+  const setTime = new Date(year, month, date, hour, minute, second).getTime();
+  const currentTime = Date.now();
+
+  const eta_ms = setTime - currentTime;
+
+  window.setTimeout(delayedbitcoinDataHandler, eta_ms);
+
+  console.log(`setTime is ${setTime}`);
+  console.log(`currentTime is ${currentTime}`);
+  console.log(`eta_ms is ${eta_ms}`);
 };
 
 const main = () => {
