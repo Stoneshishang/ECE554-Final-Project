@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="bitcoinstyle.css">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title> Bitcoin Ticker</title>
+	<!-- design system files -->
+	<link rel="stylesheet" href="https://ds.fusioncharts.com/2.0.8/css/ds.css">
+
+	<script src="https://ds.fusioncharts.com/2.0.8/js/ds.js"></script>
+	<script type="text/javascript" src="http://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-dark">
+		<h1 class="logo pl-2">Real-Time Cryptocurrency</h1>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row text-center mt-4 pl-3 pr-3">
+			<div class="col-sm">
+				<div class="card">
+					<div class="card-body">
+						<div class="h3">Bitcoin(BTC)</div>
+						<div class="h5">(Price in USD)</div>
+						<div id="btc_val" class="h4 kpi-value"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm">
+				<div class="card">
+					<div class="card-body">
+						<div class="h3">Litecoin(LTC)</div>
+						<div class="h5">(Price in USD)</div>
+						<div id="ltc_val" class="h4 kpi-value"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm">
+				<div class="card">
+					<div class="card-body">
+						<div class="h3">Ethereum</div>
+						<div class="h5">(Price in USD)</div>
+						<div id="eth_val" class="h4 kpi-value"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-4 pr-3 pl-3">
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<div id="chart-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<p></p>
+
+		<!-- Start Chat portion -->
+		<div class="RTG-wrapper">
+			<ul id="events"></ul>
+	
+			<div class="chat-wrapper">
+			<form id="chat-form">
+				<input id="chat" autocomplete="off" title="chat" />
+				<button id="say">Say</button>
+			</form>
+			</div>
+			<p></p>
+
+			<div>
+				<label>Score:</label>
+				<div>
+					<label>Player 1</label>
+					<textarea name="score-board" cols="10" rows="1"></textarea>
+					<label>Player 2</label>
+					<textarea name="score-board" cols="10" rows="1"></textarea>
+				</div>
+			</div>	
+
+			<p>Above Real time Bitcoin price graph is updating every 10 seconds</p>
+			<p>Note: Please choose a betting amount to start the game. Then make the betting selection within 10 seconds.</p>
+			<div class="button-wrapper">
+				<label for="time">Choose a betting amount:</label>
+				<button id="add50" value="50" class="turn" onclick="startTimer()">Add $50</button>
+				<button id="add500" value="500" class="turn" onclick="startTimer()">Add $500</button>
+				<button id="add2000" value="2000" class="turn" onclick="startTimer()">Add $2000</button>
+			</div>
+			<p></p>
+
+			<div class="betting-price">
+				<form id="betting-price-form">
+					<label for="price">Choose a betting price:</label>
+					<input type="number" name="price" id="price" required>
+					<button id ="confirm-betting-price" type="submit">Confirm</button>
+				</form>
+			</div>
+
+			<div class="time-selection">
+				<form id="time-form">
+					<label for="time">Choose a betting time:</label>
+					<input type="time" name ="time" id="time" step="2" required>
+					<button id ="confirm-time-selection" type="submit" onclick="timeout()">Confirm</button>
+				</form>
+				<button id="make-bet">MAKE THE BET!</button>
+			</div>
+	
+			
+		</div>
+	  <!-- End Chat portion -->
+	</div>
+
+	<!-- at 16:00 of https://www.youtube.com/watch?v=xVcVbCLmKew&list=PLS5KAk99i2JTGXOndVBl_J2MM4CtNRo-J&index=1, it talks about socketio  -->
+	<script src="/rtg-graph.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+    <script src="src/client.js"></script>
+	</div>
+</body>
+
+</html>
