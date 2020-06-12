@@ -12,6 +12,13 @@ class RtgGame {
     this._player1Selections = [];
     this._player2Selections = [];
 
+    // let player1setTimePrice;
+    // let player2setTimePrice;
+
+    // _setTimePricetoPlayers(setTimePrice,toPlayer){
+    //   toPlayer = setTimePrice;
+    // }
+
     this._sendToPlayers("You have matched an player!");
 
     this._players.forEach((player, index) => {
@@ -37,12 +44,17 @@ class RtgGame {
         }
       });
 
-      player.on("price", (price) => {
-        this._onTurn(index, price);
-        console.log(`the index is ${index}`);
+      // player.on("setTimePrice", async(setTimePrice) => {
+      //   if (index === 0) {
+      //      const player1setTimePrice = await this._setTimePricetoPlayers(setTimePrice,player1setTimePrice);
 
-        console.log(`The selected price is ${price}`);
-      });
+      //     console.log(`player1 setTimePrice is ${player1setTimePrice}`);
+      //   } else if (index === 1) {
+      //     const player2setTimePrice = await this._setTimePricetoPlayers(setTimePrice,player2setTimePrice);
+
+      //     console.log(`player2 setTimePrice is ${player2setTimePrice}`);
+      //   }
+      // });
     });
   }
 
@@ -90,8 +102,8 @@ class RtgGame {
     }
 
     if (
-      this._player1Selections.length >= 3 &&
-      this._player2Selections.length >= 3
+      this._player1Selections.length >= 4 &&
+      this._player2Selections.length >= 4
     ) {
       this._sendToPlayers("Game Over! " + turns.join(" : "));
       this._player1Selections = [];
@@ -99,8 +111,6 @@ class RtgGame {
       this._sendToPlayers("Next Round!");
     }
   }
-
-  // _callAPIforPrice() {}
 }
 
 module.exports = RtgGame;
