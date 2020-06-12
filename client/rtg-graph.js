@@ -9,7 +9,7 @@ function ethereumGetData() {
   var request = ethereumHttpObject();
   request.open("GET", eth_api_url, false);
   request.send(null);
-  console.log(request.responseText);
+  // console.log(request.responseText);
   return request.responseText;
 }
 function ethereumDataHandler() {
@@ -90,6 +90,9 @@ function bitcoinGetData() {
   var request = makeHttpObject();
   request.open("GET", api_url, false);
   request.send(null);
+
+  // console.log(`request.responseText is ${request.responseText}`);
+
   return request.responseText;
 }
 function bitcoinDataHandler() {
@@ -104,6 +107,26 @@ function bitcoinDataHandler() {
   var api_success = data.success;
   var api_error = data.error;
   console.log(`BTC Real Time price is ${BTCRTprice}`);
+
+  return BTCRTprice;
+}
+
+function delayedbitcoinDataHandler() {
+  var raw_data_string = bitcoinGetData();
+  var data = JSON.parse(raw_data_string);
+  var base = data.ticker.base;
+  var target = data.ticker.target;
+  var BTCRTprice = data.ticker.price;
+  var volume = data.ticker.volume;
+  var change = data.ticker.change;
+  var api_server_epoch_timestamp = data.timestamp;
+  var api_success = data.success;
+  var api_error = data.error;
+
+  var today = new Date();
+  var currentTime =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  console.log(`Delayed BTC Real Time price at ${currentTime} is ${BTCRTprice}`);
 
   return BTCRTprice;
 }
