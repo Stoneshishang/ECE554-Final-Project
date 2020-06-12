@@ -106,7 +106,7 @@ function bitcoinDataHandler() {
   var api_server_epoch_timestamp = data.timestamp;
   var api_success = data.success;
   var api_error = data.error;
-  console.log(`BTC Real Time price is ${BTCRTprice}`);
+  // console.log(`BTC Real Time price is ${BTCRTprice}`);
 
   return BTCRTprice;
 }
@@ -116,7 +116,7 @@ function delayedbitcoinDataHandler() {
   var data = JSON.parse(raw_data_string);
   var base = data.ticker.base;
   var target = data.ticker.target;
-  var BTCRTprice = data.ticker.price;
+  var delayedBTCRTprice = data.ticker.price;
   var volume = data.ticker.volume;
   var change = data.ticker.change;
   var api_server_epoch_timestamp = data.timestamp;
@@ -126,9 +126,13 @@ function delayedbitcoinDataHandler() {
   var today = new Date();
   var currentTime =
     today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  console.log(`Delayed BTC Real Time price at ${currentTime} is ${BTCRTprice}`);
+  console.log(
+    `Delayed BTC Real Time price at ${currentTime} is ${delayedBTCRTprice}`
+  );
 
-  return BTCRTprice;
+  sock.emit("turn", delayedBTCRTprice);
+
+  return delayedBTCRTprice;
 }
 
 document.getElementById("btc_val").innerHTML =
