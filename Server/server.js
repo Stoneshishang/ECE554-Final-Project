@@ -26,7 +26,10 @@ io.on("connection", (sock) => {
     waitingPlayer = null;
   } else {
     waitingPlayer = sock;
-    waitingPlayer.emit("message", "waiting for an opponent");
+    waitingPlayer.emit(
+      "message",
+      " Your are Player 1, waiting for an opponent..."
+    );
   }
 
   sock.on("message", (text) => {

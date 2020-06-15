@@ -11,6 +11,10 @@ class RtgGame {
 
     this._player1Selections = [];
     this._player2Selections = [];
+
+    this._initalMoney1 = 100000;
+    this._initalMoney2 = 100000;
+
     // let player1setTimePrice;
     // let player2setTimePrice;
 
@@ -29,10 +33,16 @@ class RtgGame {
         if (index === 0) {
           this._player1Selections.push(turn);
           this._onTurn(0, turn);
-
-          console.log(
-            `player1 Arr is ${JSON.stringify(this._player1Selections)}`
-          );
+          // if (
+          //   this._player1Selections[0] &&
+          //   this._player1Selections[1] == null
+          // ) {
+          //   this._score1 = Number(this._score1) + Number(turn);
+          //   console.log(`this._score1 is ${this._score1}`);
+          // }
+          // console.log(
+          //   `player1 Arr is ${JSON.stringify(this._player1Selections)}`
+          // );
         } else if (index === 1) {
           this._player2Selections.push(turn);
           this._onTurn(1, turn);
@@ -43,15 +53,13 @@ class RtgGame {
         }
       });
 
-      // player.on("setTimePrice", async(setTimePrice) => {
+      // player.on("score", (score) => {
       //   if (index === 0) {
-      //      const player1setTimePrice = await this._setTimePricetoPlayers(setTimePrice,player1setTimePrice);
-
-      //     console.log(`player1 setTimePrice is ${player1setTimePrice}`);
+      //     score1 = score1 + score;
+      //     console.log(`score1 is ${score1}`);
       //   } else if (index === 1) {
-      //     const player2setTimePrice = await this._setTimePricetoPlayers(setTimePrice,player2setTimePrice);
-
-      //     console.log(`player2 setTimePrice is ${player2setTimePrice}`);
+      //     score2 = score2 + score;
+      //     console.log(`score2 is ${score2}`);
       //   }
       // });
     });
@@ -129,8 +137,47 @@ class RtgGame {
 
     if (player1Diff < player2Diff) {
       this._sendWinMessage(this._players[0], this._players[1]);
-    } else {
+
+      if (this._initalMoney1 > 0 && this._initalMoney2 > 0) {
+        this._initalMoney1 =
+          this._initalMoney1 + Number(this._player2Selections[0]);
+        this._initalMoney2 =
+          this._initalMoney2 - Number(this._player2Selections[0]);
+
+        this._sendToPlayers(
+          `Player1 has $${this._initalMoney1} left, Player2 has $${this._initalMoney2} left`
+        );
+
+        console.log(`Player1 has $${this._initalMoney1} left`);
+        console.log(`Player2 has $${this._initalMoney2} left`);
+      } else {
+        this._sendToPlayers(
+          "One player has out of money, He is OUT of the game"
+        );
+      }
+    } else if (player1Diff > player2Diff) {
       this._sendWinMessage(this._players[1], this._players[0]);
+      if (this._initalMoney1 > 0 && this._initalMoney2 > 0) {
+        this._initalMoney1 =
+          this._initalMoney1 - Number(this._player1Selections[0]);
+        this._initalMoney2 =
+          this._initalMoney2 + Number(this._player1Selections[0]);
+
+        this._sendToPlayers(
+          `Player1 has $${this._initalMoney1} left, Player2 has $${this._initalMoney2} left`
+        );
+
+        console.log(`Player1 has $${this._initalMoney1} left`);
+        console.log(`Player2 has $${this._initalMoney2} left`);
+      } else {
+        this._sendToPlayers(
+          "One player has out of money, He is OUT of the game"
+        );
+      }
+    } else if (player1Diff == player2Diff) {
+      this._sendToPlayers(
+        "It's a Drawl, becuase you guys selected the same betting price."
+      );
     }
   }
 
