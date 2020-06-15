@@ -26,8 +26,11 @@ const onFormSubmitted = (e) => {
 const addPriceButtonListeners = () => {
   ["add50", "add500", "add2000"].forEach((id) => {
     const button = document.getElementById(id);
+    const value = button.value;
     button.addEventListener("click", () => {
-      sock.emit("turn", id);
+      console.log(`value is ${value}`);
+      // sock.emit("score", value)
+      sock.emit("turn", value);
     });
   });
 };
