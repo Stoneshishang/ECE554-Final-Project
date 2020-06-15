@@ -11,7 +11,6 @@ class RtgGame {
 
     this._player1Selections = [];
     this._player2Selections = [];
-
     // let player1setTimePrice;
     // let player2setTimePrice;
 
@@ -105,11 +104,39 @@ class RtgGame {
       this._player1Selections.length >= 4 &&
       this._player2Selections.length >= 4
     ) {
-      this._sendToPlayers("Game Over! " + turns.join(" : "));
+      this._sendToPlayers(
+        "GAME OVER! The Real Time BTC prince at your selected time is " +
+          turns[0]
+      );
+      this._getGameResult();
       this._player1Selections = [];
       this._player2Selections = [];
-      this._sendToPlayers("Next Round!");
+      this._sendToPlayers("NEXT TURN!");
     }
+  }
+
+  _getGameResult() {
+    const player1Diff = Math.abs(
+      this._player1Selections[3] - this._player1Selections[1]
+    );
+
+    const player2Diff = Math.abs(
+      this._player2Selections[3] - this._player2Selections[1]
+    );
+
+    console.log(`player1Diff is ${player1Diff}`);
+    console.log(`player2Diff is ${player2Diff}`);
+
+    if (player1Diff < player2Diff) {
+      this._sendWinMessage(this._players[0], this._players[1]);
+    } else {
+      this._sendWinMessage(this._players[1], this._players[0]);
+    }
+  }
+
+  _sendWinMessage(winner, loser) {
+    winner.emit("message", "You WON!");
+    loser.emit("message", "You LOST!");
   }
 }
 
