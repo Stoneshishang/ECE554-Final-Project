@@ -1,14 +1,14 @@
 let sock;
 
-const writeEvent = (text) => {
+const appendMessage = (message) => {
   //<ul> element
   const parent = document.querySelector("#events");
 
   //<li> element
   const el = document.createElement("li");
-  el.innerHTML = text;
+  el.innerText = message;
 
-  parent.appendChild(el);
+  parent.append(el);
 };
 
 //Chat Window
@@ -16,10 +16,10 @@ const onFormSubmitted = (e) => {
   e.preventDefault();
 
   const input = document.querySelector("#chat");
-  const text = input.value;
+  const message = input.value;
+  appendMessage(`You: ${message}`);
+  sock.emit("send-chat-message", message);
   input.value = "";
-
-  sock.emit("message", text);
 };
 
 //Display the selected betting amount each individual player for themselves
@@ -35,12 +35,7 @@ const addPriceButtonListeners = () => {
   });
 };
 
-const startTimer = () => {
-  // window.setTimeout(window.alert, 10000, "Your betting time is up!");
-  // window.setTimeout(disableButton, 10000);
-};
-
-const disableButton = () => {
+function disableButton() {
   [
     "add50",
     "add500",
@@ -49,6 +44,34 @@ const disableButton = () => {
     "confirm-time-selection",
   ].forEach((id) => {
     document.getElementById(id).disabled = true;
+  });
+}
+
+const idleDisable = () => {
+  // alert("hello, idleDisable is triggered!");
+  const resetTimer = () => {
+    // window.alert("resetTimer is triggered!");
+    window.clearTimeout(t);
+    t = window.setTimeout(disableButton, 10000000);
+  };
+
+  resetTimer();
+
+  var t;
+  document.onkeydown = resetTimer;
+
+  console.log(document.onkeydown);
+};
+
+const enableButton = () => {
+  [
+    "add50",
+    "add500",
+    "add2000",
+    "confirm-betting-price",
+    "confirm-time-selection",
+  ].forEach((id) => {
+    document.getElementById(id).disabled = false;
   });
 };
 
@@ -90,6 +113,7 @@ const timeout = () => {
   const eta_ms = setTime - currentTime;
 
   window.setTimeout(delayedbitcoinDataHandler, eta_ms);
+  window.setTimeout(enableButton, eta_ms);
 
   console.log(`setTime is ${setTime}`);
   console.log(`currentTime is ${currentTime}`);
@@ -97,10 +121,24 @@ const timeout = () => {
 };
 
 const main = () => {
-  writeEvent("Welcome to RT Gambling!");
+  appendMessage("Welcome to RT Gambling!");
+
+  const name = prompt("What is your name?");
+  console.log(`your name is ${name}`);
 
   sock = io();
-  sock.on("message", writeEvent);
+
+  sock.emit("new-user", name);
+
+  sock.on("user-connected", (name) => {
+    appendMessage(`${name} connected`);
+  });
+
+  sock.on("chat-message", (data) => {
+    console.log(`data is ${data}`);
+
+    appendMessage(`${data.name}: ${data.message}`);
+  });
 
   document
     .querySelector("#chat-form")
