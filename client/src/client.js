@@ -29,7 +29,6 @@ const addPriceButtonListeners = () => {
     const value = button.value;
     button.addEventListener("click", () => {
       console.log(`value is ${value}`);
-      // sock.emit("score", value)
       sock.emit("turn", value);
     });
   });
@@ -127,6 +126,10 @@ const main = () => {
   console.log(`your name is ${name}`);
 
   sock = io();
+
+  sock.on("initialMessage", appendMessage);
+
+  sock.on("player2Identifier", appendMessage);
 
   sock.emit("new-user", name);
 
