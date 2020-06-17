@@ -4,23 +4,14 @@ class RtgGame {
   constructor(p1, p2) {
     this._players = [p1, p2];
 
-    // console.log(`this._players is ${util.inspect(this._players[0])}`);
-
     //capture the turn in _turns[]
     this._turns = [null, null];
 
     this._player1Selections = [];
     this._player2Selections = [];
 
-    this._initalMoney1 = 100000;
-    this._initalMoney2 = 100000;
-
-    // let player1setTimePrice;
-    // let player2setTimePrice;
-
-    // _setTimePricetoPlayers(setTimePrice,toPlayer){
-    //   toPlayer = setTimePrice;
-    // }
+    this._initalMoney1 = 5000;
+    this._initalMoney2 = 5000;
 
     this._sendToPlayers("You have matched an player!");
 
@@ -33,35 +24,19 @@ class RtgGame {
         if (index === 0) {
           this._player1Selections.push(turn);
           this._onTurn(0, turn);
-          // if (
-          //   this._player1Selections[0] &&
-          //   this._player1Selections[1] == null
-          // ) {
-          //   this._score1 = Number(this._score1) + Number(turn);
-          //   console.log(`this._score1 is ${this._score1}`);
-          // }
-          // console.log(
-          //   `player1 Arr is ${JSON.stringify(this._player1Selections)}`
-          // );
         } else if (index === 1) {
           this._player2Selections.push(turn);
           this._onTurn(1, turn);
+
+          console.log(
+            `player1 Arr is ${JSON.stringify(this._player1Selections)}`
+          );
 
           console.log(
             `player2 Arr is ${JSON.stringify(this._player2Selections)}`
           );
         }
       });
-
-      // player.on("score", (score) => {
-      //   if (index === 0) {
-      //     score1 = score1 + score;
-      //     console.log(`score1 is ${score1}`);
-      //   } else if (index === 1) {
-      //     score2 = score2 + score;
-      //     console.log(`score2 is ${score2}`);
-      //   }
-      // });
     });
   }
 
@@ -116,6 +91,7 @@ class RtgGame {
         "GAME OVER! The Real Time BTC prince at your selected time is " +
           turns[0]
       );
+
       this._getGameResult();
       this._player1Selections = [];
       this._player2Selections = [];
@@ -150,7 +126,7 @@ class RtgGame {
 
         console.log(`Player1 has $${this._initalMoney1} left`);
         console.log(`Player2 has $${this._initalMoney2} left`);
-      } else {
+      } else if (this._initalMoney1 < 0 || this._initalMoney2 < 0) {
         this._sendToPlayers(
           "One player has out of money, He is OUT of the game"
         );
@@ -169,7 +145,7 @@ class RtgGame {
 
         console.log(`Player1 has $${this._initalMoney1} left`);
         console.log(`Player2 has $${this._initalMoney2} left`);
-      } else {
+      } else if (this._initalMoney1 < 0 || this._initalMoney2 < 0) {
         this._sendToPlayers(
           "One player has out of money, He is OUT of the game"
         );

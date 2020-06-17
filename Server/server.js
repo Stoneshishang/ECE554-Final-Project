@@ -32,8 +32,18 @@ io.on("connection", (sock) => {
     );
   }
 
-  sock.on("message", (text) => {
-    io.emit("message", text);
+  const users = {};
+
+  sock.on("new-user", (name) => {
+    users[sock.id] = name;
+    sock.broadcast.emit("user-connected", name);
+  });
+
+  sock.on("send-chat-message", (message) => {
+    sock.broadcast.emit("chat-message", {
+      message: message,
+      name: users[sock.id],
+    });
   });
 });
 
