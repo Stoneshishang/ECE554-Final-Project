@@ -81,14 +81,14 @@
 			</div>	 -->
 
 			<p>Above Real time Bitcoin price graph is updating every 10 seconds</p>
-			<p>Every Player default has $100,000</p>
+			<p>Every Player default started with $5000</p>
 			<p>Note: Please choose a betting amount to start the game. Then make the betting selection within 10 seconds.</p>
 			
 			<div class="button-wrapper">
 				<label for="time">Choose a betting amount:</label>
-				<button id="add50" value="50" class="turn" onclick="startTimer()">Add $50</button>
-				<button id="add500" value="500" class="turn" onclick="startTimer()">Add $500</button>
-				<button id="add2000" value="2000" class="turn" onclick="startTimer()">Add $2000</button>
+				<button id="add50" value="50" class="turn" onclick="idleDisable()">Add $50</button>
+				<button id="add500" value="500" class="turn" onclick="idleDisable()">Add $500</button>
+				<button id="add2000" value="2000" class="turn" onclick="idleDisable()">Add $2000</button>
 			</div>
 			<p></p>
 
@@ -106,15 +106,13 @@
 					<input type="time" name ="time" id="time" step="2" required>
 					<button id ="confirm-time-selection" type="submit" onclick="timeout()">Confirm</button>
 				</form>
-				<button id="make-bet">MAKE THE BET!</button>
 			</div>
 	
-			
 		</div>
 	  <!-- End Chat portion -->
 	</div>
 
-	<!-- at 16:00 of https://www.youtube.com/watch?v=xVcVbCLmKew&list=PLS5KAk99i2JTGXOndVBl_J2MM4CtNRo-J&index=1, it talks about socketio  -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="/rtg-graph.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
     <script src="src/client.js"></script>

@@ -22,7 +22,7 @@
 
 /* Game Portion CSS */
 
-/* body {
+body {
   font-family: "Helvetica Neue", sans-serif;
   margin: 0;
   padding: 0;
@@ -34,13 +34,13 @@ input {
   padding: 0 5px;
 }
 
-button {
+/* button {
   text-transform: uppercase;
   font-size: 0.8rem;
   padding: 3px 15px;
   color: white;
   line-height: 25px;
-  background-color: #00bcd4;
+  background-color: #4670ad;
   border: none;
   border-radius: 2px;
   cursor: pointer;
@@ -50,20 +50,20 @@ button {
 }
 
 button:hover {
-  background-color: #79d7e4;
+  background-color: #4670ad;
 }
 
 button.turn {
-  color: rgb(255, 64, 129);
-  background-color: white;
+  color: rgb(255, 255, 255);
+  background-color: #4670ad;
   box-shadow: none;
 }
 
 button.turn:hover {
-  background-color: #eaeaea;
-}
+  background-color: #86abe2;
+} */
 
-.RTG-wrapper {
+.rps-wrapper {
   background-color: rgb(255, 255, 255);
   width: 400px;
   height: 300px;
@@ -79,8 +79,9 @@ button.turn:hover {
   list-style: none;
   margin: 0;
   padding: 0;
+  height: 200px;
   border-bottom: 1px solid lightgrey;
-  overflow-y: scroll;
+  overflow: scroll;
 }
 
 #events li {
@@ -110,4 +111,4 @@ button.turn:hover {
   display: flex;
   padding: 10px 50px;
   justify-content: space-evenly;
-} */
+}
