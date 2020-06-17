@@ -42,12 +42,12 @@ class RtgGame {
 
   //Send each individual players feedback of the selection
   _sendToPlayer(playerIndex, msg) {
-    this._players[playerIndex].emit("message", msg);
+    this._players[playerIndex].emit("selections", msg);
   }
 
   //send both players the arguments of the function which is the "You have matched an existing player!".
   _sendToPlayers(msg) {
-    this._players.forEach((player) => player.emit("message", msg));
+    this._players.forEach((player) => player.emit("selections", msg));
   }
 
   //Capture the turn of each players, control the game flow
@@ -158,8 +158,8 @@ class RtgGame {
   }
 
   _sendWinMessage(winner, loser) {
-    winner.emit("message", "You WON!");
-    loser.emit("message", "You LOST!");
+    winner.emit("selections", "You WON!");
+    loser.emit("selections", "You LOST!");
   }
 }
 
