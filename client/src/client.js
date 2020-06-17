@@ -81,7 +81,7 @@ const bettingPriceFrom = (e) => {
   e.preventDefault();
   const inputVal = document.querySelector("#price");
 
-  sock.emit("message", `Betting price input is ${inputVal.value}`);
+  sock.emit("selections", `Betting price input is ${inputVal.value}`);
   sock.emit("turn", `${inputVal.value}`);
 };
 
@@ -92,7 +92,7 @@ const bettingTimeForm = (e) => {
 
   const inputVal = document.querySelector("#time");
 
-  sock.emit("message", `Betting time input is ${inputVal.value}`);
+  sock.emit("selections", `Betting time input is ${inputVal.value}`);
   sock.emit("turn", `${inputVal.value}`);
 };
 
@@ -139,6 +139,8 @@ const main = () => {
 
     appendMessage(`${data.name}: ${data.message}`);
   });
+
+  sock.on("selections", appendMessage);
 
   document
     .querySelector("#chat-form")
