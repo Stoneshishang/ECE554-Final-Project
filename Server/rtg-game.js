@@ -13,8 +13,6 @@ class RtgGame {
     this._initalMoney1 = 5000;
     this._initalMoney2 = 5000;
 
-    this._sendToPlayers("You have matched an player!");
-
     this._players.forEach((player, index) => {
       player.on("turn", (turn) => {
         console.log(`the index is ${index}`);

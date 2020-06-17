@@ -21,13 +21,14 @@ io.on("connection", (sock) => {
     //start a game
     new RtgGame(waitingPlayer, sock);
     [sock, waitingPlayer].forEach((s) =>
-      s.emit("message", "We have two players now!")
+      s.emit("initialMessage", "We have two players now! Start chatting!")
     );
+    sock.emit("player2Identifier", "You are Player 2!");
     waitingPlayer = null;
   } else {
     waitingPlayer = sock;
     waitingPlayer.emit(
-      "message",
+      "initialMessage",
       " Your are Player 1, waiting for an opponent..."
     );
   }
