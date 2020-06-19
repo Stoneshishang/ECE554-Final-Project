@@ -1,3 +1,5 @@
+const t0 = performance.now();
+
 //Fetch the price of Ethereum
 const eth_api_url = "https://api.cryptonator.com/api/ticker/eth-usd";
 function ethereumHttpObject() {
@@ -31,6 +33,7 @@ function ethereumDataHandler() {
 document.getElementById("eth_val").innerHTML =
   "$" + Math.round(ethereumDataHandler());
 
+const t5 = performance.now();
 //Fetch the price of Litecoin
 const ltc_api_url = "https://api.cryptonator.com/api/ticker/ltc-usd";
 function litecoinHttpObject() {
@@ -60,6 +63,8 @@ function litecoinDataHandler() {
 }
 document.getElementById("ltc_val").innerHTML =
   "$" + Math.round(litecoinDataHandler());
+
+const t3 = performance.now();
 
 //Fetch the value of Bitcoin
 const api_url = "https://api.cryptonator.com/api/ticker/btc-usd";
@@ -111,6 +116,8 @@ function bitcoinDataHandler() {
   return BTCRTprice;
 }
 
+const t4 = performance.now();
+
 function delayedbitcoinDataHandler() {
   var raw_data_string = bitcoinGetData();
   var data = JSON.parse(raw_data_string);
@@ -126,9 +133,9 @@ function delayedbitcoinDataHandler() {
   var today = new Date();
   var currentTime =
     today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  console.log(
-    `Delayed BTC Real Time price at ${currentTime} is ${delayedBTCRTprice}`
-  );
+  // console.log(
+  //   `Delayed BTC Real Time price at ${currentTime} is ${delayedBTCRTprice}`
+  // );
 
   sock.emit("turn", delayedBTCRTprice);
 
@@ -137,6 +144,8 @@ function delayedbitcoinDataHandler() {
 
 document.getElementById("btc_val").innerHTML =
   "$" + parseFloat(bitcoinDataHandler()).toFixed(3);
+
+const t1 = performance.now();
 
 FusionCharts.ready(function () {
   var fusioncharts = new FusionCharts({
@@ -208,3 +217,10 @@ FusionCharts.ready(function () {
   });
   fusioncharts.render();
 });
+
+const t2 = performance.now();
+console.log(`Call to rtg-graph.js took ${t2 - t0} milliseconds.`);
+console.log(`Call to FusionChart.read took ${t2 - t1} milliseconds.`);
+console.log(`Call to BTC price API took ${t4 - t3} milliseconds.`);
+console.log(`Call to LTC price API took ${t3 - t5} milliseconds.`);
+console.log(`Call to ETH price API took ${t5 - t0} milliseconds.`);
