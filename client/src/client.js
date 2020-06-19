@@ -51,7 +51,16 @@ const idleDisable = () => {
   const resetTimer = () => {
     // window.alert("resetTimer is triggered!");
     window.clearTimeout(t);
-    t = window.setTimeout(disableButton, 10000000);
+
+    sock.on("timer", () => {
+      window.clearTimeout(t);
+
+      console.log(`t is ${t}`);
+
+      console.log("clear timer is excuted!");
+    });
+
+    t = window.setTimeout(disableButton, 10000);
   };
 
   resetTimer();
@@ -59,7 +68,7 @@ const idleDisable = () => {
   var t;
   document.onkeydown = resetTimer;
 
-  console.log(document.onkeydown);
+  // console.log(document.onkeydown);
 };
 
 const enableButton = () => {
@@ -112,12 +121,13 @@ const timeout = () => {
   const eta_ms = setTime - currentTime;
 
   window.setTimeout(delayedbitcoinDataHandler, eta_ms);
-  window.setTimeout(enableButton, eta_ms);
 
-  console.log(`setTime is ${setTime}`);
-  console.log(`currentTime is ${currentTime}`);
-  console.log(`eta_ms is ${eta_ms}`);
+  // console.log(`setTime is ${setTime}`);
+  // console.log(`currentTime is ${currentTime}`);
+  // console.log(`eta_ms is ${eta_ms}`);
 };
+
+console.log(`Amount of CPU cores are :${navigator.hardwareConcurrency}`);
 
 const main = () => {
   appendMessage("Welcome to RT Gambling!");
@@ -144,6 +154,10 @@ const main = () => {
   });
 
   sock.on("selections", appendMessage);
+
+  sock.on("timer", () => {
+    enableButton();
+  });
 
   document
     .querySelector("#chat-form")
