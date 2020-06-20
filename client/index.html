@@ -86,9 +86,9 @@
 			
 			<div class="button-wrapper">
 				<label for="time">Choose a betting amount:</label>
-				<button id="add50" value="50" class="turn" onclick="idleDisable();immediateDisable1()">Add $50</button>
-				<button id="add500" value="500" class="turn" onclick="idleDisable();immediateDisable1()">Add $500</button>
-				<button id="add2000" value="2000" class="turn" onclick="idleDisable();immediateDisable1()">Add $2000</button>
+				<button id="add50" value="50" class="turn" onclick="idleDisable()">Add $50</button>
+				<button id="add500" value="500" class="turn" onclick="idleDisable()">Add $500</button>
+				<button id="add2000" value="2000" class="turn" onclick="idleDisable()">Add $2000</button>
 			</div>
 			<p></p>
 
@@ -96,7 +96,7 @@
 				<form id="betting-price-form">
 					<label for="price">Choose a betting price:</label>
 					<input type="number" name="price" id="price" required>
-					<button id ="confirm-betting-price" class="turn" type="submit" onclick="immediateDisable2()">Confirm</button>
+					<button id ="confirm-betting-price" class="turn" type="submit">Confirm</button>
 				</form>
 			</div>
 
@@ -104,7 +104,7 @@
 				<form id="time-form">
 					<label for="time">Choose a betting time:</label>
 					<input type="time" name ="time" id="time" step="2" required>
-					<button id ="confirm-time-selection" class="turn" type="submit" onclick="timeout();immediateDisable3()">Confirm</button>
+					<button id ="confirm-time-selection" class="turn" type="submit" onclick="timeout()">Confirm</button>
 				</form>
 			</div>
 	
