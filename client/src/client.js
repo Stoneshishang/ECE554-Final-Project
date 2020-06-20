@@ -34,6 +34,20 @@ const addPriceButtonListeners = () => {
   });
 };
 
+function immediateDisable1() {
+  ["add50", "add500", "add2000"].forEach((id) => {
+    document.getElementById(id).disabled = true;
+  });
+}
+
+function immediateDisable2() {
+  document.getElementById("confirm-betting-price").disabled = true;
+}
+
+function immediateDisable3() {
+  document.getElementById("confirm-time-selection").disabled = true;
+}
+
 function disableButton() {
   [
     "add50",
@@ -51,24 +65,22 @@ const idleDisable = () => {
   const resetTimer = () => {
     // window.alert("resetTimer is triggered!");
     window.clearTimeout(t);
-
-    sock.on("timer", () => {
-      window.clearTimeout(t);
-
-      console.log(`t is ${t}`);
-
-      console.log("clear timer is excuted!");
-    });
-
     t = window.setTimeout(disableButton, 10000);
   };
 
-  resetTimer();
+  sock.on("timer", () => {
+    window.clearTimeout(t);
 
+    console.log(`t is ${t}`);
+
+    console.log("clear timer is excuted!");
+  });
+
+  resetTimer();
   var t;
   document.onkeydown = resetTimer;
 
-  // console.log(document.onkeydown);
+  console.log(document.onkeydown);
 };
 
 const enableButton = () => {
@@ -121,13 +133,12 @@ const timeout = () => {
   const eta_ms = setTime - currentTime;
 
   window.setTimeout(delayedbitcoinDataHandler, eta_ms);
+  // window.setTimeout(enableButton, eta_ms);
 
-  // console.log(`setTime is ${setTime}`);
-  // console.log(`currentTime is ${currentTime}`);
-  // console.log(`eta_ms is ${eta_ms}`);
+  console.log(`setTime is ${setTime}`);
+  console.log(`currentTime is ${currentTime}`);
+  console.log(`eta_ms is ${eta_ms}`);
 };
-
-console.log(`Amount of CPU cores are :${navigator.hardwareConcurrency}`);
 
 const main = () => {
   appendMessage("Welcome to RT Gambling!");
