@@ -1,5 +1,3 @@
-var util = require("util");
-
 class RtgGame {
   constructor(p1, p2) {
     this._players = [p1, p2];
@@ -27,19 +25,11 @@ class RtgGame {
           this._onTurn(1, turn);
 
           console.log(
-            `this._player1Selections Arr is ${JSON.stringify(
-              this._player1Selections
-            )}`
+            `player1 Arr is ${JSON.stringify(this._player1Selections)}`
           );
 
           console.log(
-            `this._player2Selections Arr is ${JSON.stringify(
-              this._player2Selections
-            )}`
-          );
-
-          console.log(
-            "*****************************************************************************"
+            `player2 Arr is ${JSON.stringify(this._player2Selections)}`
           );
         }
       });
@@ -76,7 +66,9 @@ class RtgGame {
     console.log(`Player1 Array is ${JSON.stringify(this._player1Selections)}`);
     console.log(`Player2 Array is ${JSON.stringify(this._player2Selections)}`);
 
-    console.log("----------------------------------");
+    console.log(
+      "*****************************************************************************"
+    );
 
     if (
       (turns[0] || turns[1]) &&
@@ -95,12 +87,14 @@ class RtgGame {
         "GAME OVER! The Real Time BTC prince at your selected time is " +
           turns[0]
       );
+
       this._getGameResult();
       this._player1Selections = [];
       this._player2Selections = [];
       this._sendToPlayers("NEXT TURN!");
     } else if (
       this._player1Selections.length != null &&
+      this._player1Selections.length != 3 &&
       this._player2Selections.length == 4
     ) {
       this._sendToPlayers("GAME OVER! ");
@@ -110,6 +104,7 @@ class RtgGame {
       this._sendToPlayers("NEXT TURN!");
     } else if (
       this._player1Selections.length == 4 &&
+      this._player2Selections.length != 3 &&
       this._player2Selections.length != null
     ) {
       this._sendToPlayers("GAME OVER! ");
@@ -117,17 +112,40 @@ class RtgGame {
       this._player1Selections = [];
       this._player2Selections = [];
       this._sendToPlayers("NEXT TURN!");
+    } else if (
+      this._player1Selections.length == 3 &&
+      this._player2Selections.length == 4
+    ) {
+      this._sendToPlayers("Wait for Player 1 result is being triggered ");
+      console.log(`Player 1 timer is triggered`);
+      this._getGameResult();
+      console.log(`player 1 result is fetched`);
+
+      if (
+        this._player1Selections.length == 4 &&
+        this._player2Selections.length == 4
+      ) {
+        this._sendToPlayers("NEXT TURN!");
+      }
+    } else if (
+      this._player1Selections.length == 4 &&
+      this._player2Selections.length == 3
+    ) {
+      this._sendToPlayers("Wait for Player 2 result is being triggered ");
+      console.log(`Player 2 timer is triggered`);
+      this._getGameResult();
+      console.log(`player 2 result is fetched`);
+
+      if (
+        this._player1Selections.length == 4 &&
+        this._player2Selections.length == 4
+      ) {
+        this._sendToPlayers("NEXT TURN!");
+      }
     }
   }
 
   _getGameResult() {
-    console.log(
-      `this._player1Selections.length Array length is ${this._player1Selections.length}`
-    );
-    console.log(
-      `this._player2Selections.length Array length is ${this._player2Selections.length}`
-    );
-
     const player1Diff = Math.abs(
       this._player1Selections[3] - this._player1Selections[1]
     );
@@ -138,6 +156,7 @@ class RtgGame {
 
     console.log(`player1Diff is ${player1Diff}`);
     console.log(`player2Diff is ${player2Diff}`);
+
     if (
       this._player1Selections.length == 4 &&
       this._player2Selections.length == 4
@@ -157,13 +176,9 @@ class RtgGame {
 
           console.log(`Player1 has $${this._initalMoney1} left`);
           console.log(`Player2 has $${this._initalMoney2} left`);
-        } else if (this._initalMoney1 < 0 && this._initalMoney2 > 0) {
+        } else if (this._initalMoney1 < 0 || this._initalMoney2 < 0) {
           this._sendToPlayers(
-            "Player 1 has out of money, He is OUT of the game"
-          );
-        } else if (this._initalMoney1 > 0 && this._initalMoney2 < 0) {
-          this._sendToPlayers(
-            "Player 2 has out of money, He is OUT of the game"
+            "One player has out of money, He is OUT of the game"
           );
         }
       } else if (player1Diff > player2Diff) {
@@ -180,13 +195,9 @@ class RtgGame {
 
           console.log(`Player1 has $${this._initalMoney1} left`);
           console.log(`Player2 has $${this._initalMoney2} left`);
-        } else if (this._initalMoney1 < 0 && this._initalMoney2 > 0) {
+        } else if (this._initalMoney1 < 0 || this._initalMoney2 < 0) {
           this._sendToPlayers(
-            "Player 1 has out of money, He is OUT of the game"
-          );
-        } else if (this._initalMoney1 > 0 && this._initalMoney2 < 0) {
-          this._sendToPlayers(
-            "Player 2 has out of money, He is OUT of the game"
+            "One player has out of money, He is OUT of the game"
           );
         }
       } else if (player1Diff == player2Diff) {
@@ -244,6 +255,152 @@ class RtgGame {
       } else if (this._initalMoney1 > 0 && this._initalMoney2 < 0) {
         this._sendToPlayers("Player 2 has out of money, He is OUT of the game");
       }
+    } else if (
+      this._player1Selections.length == 3 &&
+      this._player2Selections.length == 4
+    ) {
+      let intervalCheck = function (arr) {
+        return new Promise((resolve, reject) => {
+          () => {
+            if (arr.length == 3) {
+              setInterval(() => {
+                if (arr.length == 4) {
+                  resolve(1);
+                }
+              }, 1000);
+            } else {
+              reject(Error("Player 1 array is not 4 yet"));
+            }
+          };
+        });
+      };
+
+      intervalCheck(this._player1Selections)
+        .then((checkResults) => {
+          if (player1Diff < player2Diff) {
+            this._sendWinMessage(this._players[0], this._players[1]);
+
+            if (this._initalMoney1 > 0 && this._initalMoney2 > 0) {
+              this._initalMoney1 =
+                this._initalMoney1 + Number(this._player2Selections[0]);
+              this._initalMoney2 =
+                this._initalMoney2 - Number(this._player2Selections[0]);
+
+              this._sendToPlayers(
+                `Player1 has $${this._initalMoney1} left, Player2 has $${this._initalMoney2} left`
+              );
+
+              console.log(`Player1 has $${this._initalMoney1} left`);
+              console.log(`Player2 has $${this._initalMoney2} left`);
+            } else if (this._initalMoney1 < 0 || this._initalMoney2 < 0) {
+              this._sendToPlayers(
+                "One player has out of money, He is OUT of the game"
+              );
+            }
+          } else if (player1Diff > player2Diff) {
+            this._sendWinMessage(this._players[1], this._players[0]);
+            if (this._initalMoney1 > 0 && this._initalMoney2 > 0) {
+              this._initalMoney1 =
+                this._initalMoney1 - Number(this._player1Selections[0]);
+              this._initalMoney2 =
+                this._initalMoney2 + Number(this._player1Selections[0]);
+
+              this._sendToPlayers(
+                `Player1 has $${this._initalMoney1} left, Player2 has $${this._initalMoney2} left`
+              );
+
+              console.log(`Player1 has $${this._initalMoney1} left`);
+              console.log(`Player2 has $${this._initalMoney2} left`);
+            } else if (this._initalMoney1 < 0 || this._initalMoney2 < 0) {
+              this._sendToPlayers(
+                "One player has out of money, He is OUT of the game"
+              );
+            }
+          } else if (player1Diff == player2Diff) {
+            this._sendToPlayers(
+              "It's a Drawl, becuase you guys selected the same betting price."
+            );
+          }
+          console.log(`checkResult is ${checkResults}`);
+
+          clearInterval();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else if (
+      this._player1Selections.length == 4 &&
+      this._player2Selections.length == 3
+    ) {
+      let intervalCheck = function (arr) {
+        return new Promise((resolve, reject) => {
+          () => {
+            if (arr.length == 3) {
+              setInterval(() => {
+                if (arr.length == 4) {
+                  resolve(1);
+                }
+              }, 1000);
+            } else {
+              reject(Error("Player 2 array is not 4 yet"));
+            }
+          };
+        });
+      };
+
+      intervalCheck(this._player2Selections)
+        .then((checkResults) => {
+          if (player1Diff < player2Diff) {
+            this._sendWinMessage(this._players[0], this._players[1]);
+
+            if (this._initalMoney1 > 0 && this._initalMoney2 > 0) {
+              this._initalMoney1 =
+                this._initalMoney1 + Number(this._player2Selections[0]);
+              this._initalMoney2 =
+                this._initalMoney2 - Number(this._player2Selections[0]);
+
+              this._sendToPlayers(
+                `Player1 has $${this._initalMoney1} left, Player2 has $${this._initalMoney2} left`
+              );
+
+              console.log(`Player1 has $${this._initalMoney1} left`);
+              console.log(`Player2 has $${this._initalMoney2} left`);
+            } else if (this._initalMoney1 < 0 || this._initalMoney2 < 0) {
+              this._sendToPlayers(
+                "One player has out of money, He is OUT of the game"
+              );
+            }
+          } else if (player1Diff > player2Diff) {
+            this._sendWinMessage(this._players[1], this._players[0]);
+            if (this._initalMoney1 > 0 && this._initalMoney2 > 0) {
+              this._initalMoney1 =
+                this._initalMoney1 - Number(this._player1Selections[0]);
+              this._initalMoney2 =
+                this._initalMoney2 + Number(this._player1Selections[0]);
+
+              this._sendToPlayers(
+                `Player1 has $${this._initalMoney1} left, Player2 has $${this._initalMoney2} left`
+              );
+
+              console.log(`Player1 has $${this._initalMoney1} left`);
+              console.log(`Player2 has $${this._initalMoney2} left`);
+            } else if (this._initalMoney1 < 0 || this._initalMoney2 < 0) {
+              this._sendToPlayers(
+                "One player has out of money, He is OUT of the game"
+              );
+            }
+          } else if (player1Diff == player2Diff) {
+            this._sendToPlayers(
+              "It's a Drawl, becuase you guys selected the same betting price."
+            );
+          }
+          console.log(`checkResult is ${checkResults}`);
+
+          clearInterval();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }
 
