@@ -34,7 +34,7 @@ input {
   padding: 0 5px;
 }
 
-/* button {
+button {
   text-transform: uppercase;
   font-size: 0.8rem;
   padding: 3px 15px;
@@ -61,7 +61,12 @@ button.turn {
 
 button.turn:hover {
   background-color: #86abe2;
-} */
+}
+
+button.turn:disabled,
+button[disabled] {
+  background-color: #94abce;
+}
 
 .rps-wrapper {
   background-color: rgb(255, 255, 255);
