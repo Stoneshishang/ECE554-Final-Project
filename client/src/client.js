@@ -34,19 +34,19 @@ const addPriceButtonListeners = () => {
   });
 };
 
-function immediateDisable1() {
-  ["add50", "add500", "add2000"].forEach((id) => {
-    document.getElementById(id).disabled = true;
-  });
-}
+// function immediateDisable1() {
+//   ["add50", "add500", "add2000"].forEach((id) => {
+//     document.getElementById(id).disabled = true;
+//   });
+// }
 
-function immediateDisable2() {
-  document.getElementById("confirm-betting-price").disabled = true;
-}
+// function immediateDisable2() {
+//   document.getElementById("confirm-betting-price").disabled = true;
+// }
 
-function immediateDisable3() {
-  document.getElementById("confirm-time-selection").disabled = true;
-}
+// function immediateDisable3() {
+//   document.getElementById("confirm-time-selection").disabled = true;
+// }
 
 function disableButton() {
   [
@@ -65,7 +65,7 @@ const idleDisable = () => {
   const resetTimer = () => {
     // window.alert("resetTimer is triggered!");
     window.clearTimeout(t);
-    t = window.setTimeout(disableButton, 10000);
+    t = window.setTimeout(disableButton, 15000);
   };
 
   sock.on("timer", () => {
